@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>So sánh Cline Subagents và Claude Code Subagents</title>
+</head>
+<body style="margin:0; padding:0; background:#0f172a; color:#e5e7eb; font-family:Inter, Arial, Helvetica, sans-serif; line-height:1.6;">
+  <main style="max-width:1180px; margin:0 auto; padding:40px 22px 64px;">
+    <section style="padding:34px 30px; border-radius:28px; background:linear-gradient(135deg,#1e293b 0%,#111827 52%,#312e81 100%); box-shadow:0 24px 80px rgba(0,0,0,.38); border:1px solid rgba(148,163,184,.22);">
+      <div style="display:inline-block; padding:6px 12px; border-radius:999px; background:rgba(34,211,238,.12); color:#67e8f9; font-size:13px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;">Agent Architecture Comparison</div>
+      <h1 style="margin:18px 0 10px; font-size:42px; line-height:1.12; color:#ffffff; letter-spacing:-.04em;">Cline Subagents vs Claude Code Subagents</h1>
+      <p style="margin:0; max-width:880px; color:#cbd5e1; font-size:18px;">So sánh chi tiết giữa <strong style="color:#fff;">ClineSubAgent</strong> theo tài liệu Cline và <strong style="color:#fff;">Subagent của Claude Code</strong>, tập trung vào mục tiêu thiết kế, quyền hạn, khả năng tùy biến, cách kích hoạt và trường hợp sử dụng thực tế.</p>
+    </section>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; margin-top:24px;">
+      <div style="padding:24px; border-radius:22px; background:#111827; border:1px solid rgba(96,165,250,.35); box-shadow:0 12px 34px rgba(0,0,0,.22);">
+        <h2 style="margin:0 0 10px; color:#93c5fd; font-size:24px;">Cline Subagents</h2>
+        <p style="margin:0; color:#d1d5db;">Thiên về <strong style="color:#fff;">parallel research</strong>: nhiều agent đọc hiểu codebase song song, giữ main context sạch, rồi trả về report cho main agent.</p>
+      </div>
+      <div style="padding:24px; border-radius:22px; background:#111827; border:1px solid rgba(167,139,250,.38); box-shadow:0 12px 34px rgba(0,0,0,.22);">
+        <h2 style="margin:0 0 10px; color:#c4b5fd; font-size:24px;">Claude Code Subagents</h2>
+        <p style="margin:0; color:#d1d5db;">Thiên về <strong style="color:#fff;">specialized delegated assistants</strong>: agent chuyên môn có prompt, tool, model, permission và memory riêng, có thể được Claude tự động gọi khi phù hợp.</p>
+      </div>
+    </section>
+
+    <section style="margin-top:28px; padding:26px; border-radius:24px; background:#020617; border:1px solid rgba(148,163,184,.2);">
+      <h2 style="margin:0 0 18px; color:#ffffff; font-size:28px;">Tóm tắt nhanh</h2>
+      <div style="overflow-x:auto; border-radius:18px; border:1px solid rgba(148,163,184,.18);">
+        <table style="width:100%; border-collapse:collapse; min-width:820px; background:#0b1120;">
+          <thead>
+            <tr>
+              <th style="padding:15px; text-align:left; background:#1e293b; color:#e0f2fe; border-bottom:1px solid rgba(148,163,184,.22);">Tiêu chí</th>
+              <th style="padding:15px; text-align:left; background:#1e293b; color:#bfdbfe; border-bottom:1px solid rgba(148,163,184,.22);">Cline Subagents</th>
+              <th style="padding:15px; text-align:left; background:#1e293b; color:#ddd6fe; border-bottom:1px solid rgba(148,163,184,.22);">Claude Code Subagents</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:14px; color:#f8fafc; font-weight:700; border-bottom:1px solid rgba(148,163,184,.12);">Bản chất</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Agent nghiên cứu song song, độc lập, thường dùng để khám phá codebase.</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">AI assistant chuyên môn hóa cho workflow/task cụ thể.</td>
+            </tr>
+            <tr>
+              <td style="padding:14px; color:#f8fafc; font-weight:700; border-bottom:1px solid rgba(148,163,184,.12);">Mục tiêu chính</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Tăng tốc thu thập context rộng mà không làm phình main context.</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Tái sử dụng năng lực chuyên biệt, kiểm soát tool/model/permission, giảm nhiễu context.</td>
+            </tr>
+            <tr>
+              <td style="padding:14px; color:#f8fafc; font-weight:700; border-bottom:1px solid rgba(148,163,184,.12);">Cách kích hoạt</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Cần bật feature Subagents; Cline không tự quyết định hoàn toàn, user nên yêu cầu dùng subagents.</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Claude có thể tự delegate khi task match description; cũng có thể gọi rõ agent mong muốn.</td>
+            </tr>
+            <tr>
+              <td style="padding:14px; color:#f8fafc; font-weight:700; border-bottom:1px solid rgba(148,163,184,.12);">Quyền công cụ</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Read-only: đọc file, list/search, list code definitions, chạy command read-only, dùng skills.</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Có thể read-only hoặc full tools tùy agent; built-in Explore/Plan read-only, general-purpose có all tools.</td>
+            </tr>
+            <tr>
+              <td style="padding:14px; color:#f8fafc; font-weight:700; border-bottom:1px solid rgba(148,163,184,.12);">Khả năng sửa file</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Không. Bị giới hạn để nghiên cứu, không edit/apply patch.</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Có thể có, nếu subagent được cấp Write/Edit hoặc dùng general-purpose.</td>
+            </tr>
+            <tr>
+              <td style="padding:14px; color:#f8fafc; font-weight:700; border-bottom:1px solid rgba(148,163,184,.12);">Parallelism</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Là điểm nhấn chính: nhiều research agents chạy đồng thời.</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Không chỉ là parallel research; thiên về delegation chuyên môn trong cùng session. Nếu cần nhiều agent giao tiếp song song, Claude Code hướng sang Agent Teams.</td>
+            </tr>
+            <tr>
+              <td style="padding:14px; color:#f8fafc; font-weight:700; border-bottom:1px solid rgba(148,163,184,.12);">Tùy biến</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Prompt theo từng lần dùng; ít nhấn mạnh cấu hình agent bền vững.</td>
+              <td style="padding:14px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,.12);">Rất mạnh: file Markdown/YAML, description, prompt, tools, model, permissionMode, hooks, skills, memory, maxTurns, isolation, color...</td>
+            </tr>
+            <tr>
+              <td style="padding:14px; color:#f8fafc; font-weight:700;">Độ trưởng thành</td>
+              <td style="padding:14px; color:#cbd5e1;">Experimental feature.</td>
+              <td style="padding:14px; color:#cbd5e1;">Là một phần hệ thống Claude Code với built-in agents, project/user/plugin/managed scopes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section style="margin-top:28px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:20px;">
+      <article style="padding:26px; border-radius:24px; background:#0b1220; border:1px solid rgba(96,165,250,.28);">
+        <h2 style="margin:0 0 14px; color:#93c5fd; font-size:27px;">Cline Subagents: cách hiểu đúng</h2>
+        <p style="margin:0 0 14px; color:#d1d5db;">Cline Subagents giống một nhóm “trinh sát codebase”. Main agent giao nhiều câu hỏi nghiên cứu nhỏ, mỗi subagent chạy trong context riêng, đọc/search code độc lập, sau đó trả về report cô đọng.</p>
+        <ul style="margin:0; padding-left:20px; color:#cbd5e1;">
+          <li style="margin-bottom:8px;">Phù hợp khi cần map nhanh nhiều vùng code: auth, API routes, database models, deployment config...</li>
+          <li style="margin-bottom:8px;">Giữ main context không bị ngập bởi log, grep output, file contents.</li>
+          <li style="margin-bottom:8px;">Subagent bị khóa read-only để giảm rủi ro.</li>
+          <li style="margin-bottom:8px;">Không dùng browser, không MCP, không web search, không spawn subagent lồng nhau.</li>
+        </ul>
+      </article>
+
+      <article style="padding:26px; border-radius:24px; background:#0b1220; border:1px solid rgba(167,139,250,.30);">
+        <h2 style="margin:0 0 14px; color:#c4b5fd; font-size:27px;">Claude Code Subagents: cách hiểu đúng</h2>
+        <p style="margin:0 0 14px; color:#d1d5db;">Claude Code Subagents giống “nhân sự chuyên trách” trong hệ sinh thái Claude Code. Mỗi agent có mô tả, system prompt, model, tool access và permission riêng, có thể được tái sử dụng xuyên project hoặc chỉ trong project hiện tại.</p>
+        <ul style="margin:0; padding-left:20px; color:#cbd5e1;">
+          <li style="margin-bottom:8px;">Có built-in agents như Explore, Plan, general-purpose.</li>
+          <li style="margin-bottom:8px;">Có thể tạo custom agent qua <span style="font-family:ui-monospace,Menlo,monospace; color:#e9d5ff;">/agents</span> hoặc file Markdown trong <span style="font-family:ui-monospace,Menlo,monospace; color:#e9d5ff;">.claude/agents/</span> và <span style="font-family:ui-monospace,Menlo,monospace; color:#e9d5ff;">~/.claude/agents/</span>.</li>
+          <li style="margin-bottom:8px;">Có thể dùng model rẻ/nhanh hơn cho task phụ.</li>
+          <li style="margin-bottom:8px;">Có thể cấp hoặc hạn chế quyền sửa file tùy mục đích.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section style="margin-top:28px; padding:28px; border-radius:24px; background:#111827; border:1px solid rgba(34,197,94,.30);">
+      <h2 style="margin:0 0 14px; color:#86efac; font-size:28px;">Khác biệt cốt lõi</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;">
+        <div style="padding:18px; border-radius:18px; background:#052e16; border:1px solid rgba(134,239,172,.18);">
+          <h3 style="margin:0 0 8px; color:#bbf7d0;">1. Research pool vs agent library</h3>
+          <p style="margin:0; color:#d1fae5;">Cline thiên về “pool các agent nghiên cứu tạm thời”. Claude Code thiên về “thư viện agent chuyên môn có cấu hình bền vững”.</p>
+        </div>
+        <div style="padding:18px; border-radius:18px; background:#052e16; border:1px solid rgba(134,239,172,.18);">
+          <h3 style="margin:0 0 8px; color:#bbf7d0;">2. An toàn mặc định</h3>
+          <p style="margin:0; color:#d1fae5;">Cline khóa read-only. Claude Code linh hoạt hơn: có agent read-only, nhưng cũng có agent được phép hành động/sửa code.</p>
+        </div>
+        <div style="padding:18px; border-radius:18px; background:#052e16; border:1px solid rgba(134,239,172,.18);">
+          <h3 style="margin:0 0 8px; color:#bbf7d0;">3. Cơ chế gọi</h3>
+          <p style="margin:0; color:#d1fae5;">Cline thường cần user gợi ý “use subagents”. Claude Code có thể tự chọn agent dựa trên description nếu task phù hợp.</p>
+        </div>
+        <div style="padding:18px; border-radius:18px; background:#052e16; border:1px solid rgba(134,239,172,.18);">
+          <h3 style="margin:0 0 8px; color:#bbf7d0;">4. Độ tùy biến</h3>
+          <p style="margin:0; color:#d1fae5;">Claude Code vượt trội nếu muốn định nghĩa BA agent, reviewer agent, debugger agent, migration agent... dùng lại lâu dài.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:28px; padding:28px; border-radius:24px; background:#020617; border:1px solid rgba(251,191,36,.32);">
+      <h2 style="margin:0 0 16px; color:#fde68a; font-size:28px;">Khi nào chọn cái nào?</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:18px;">
+        <div style="padding:20px; border-radius:18px; background:#1f2937; border:1px solid rgba(251,191,36,.18);">
+          <h3 style="margin:0 0 10px; color:#fef3c7;">Chọn Cline Subagents nếu...</h3>
+          <ul style="margin:0; padding-left:20px; color:#e5e7eb;">
+            <li style="margin-bottom:8px;">Bạn đang onboarding codebase lớn.</li>
+            <li style="margin-bottom:8px;">Bạn cần nhiều luồng điều tra độc lập chạy song song.</li>
+            <li style="margin-bottom:8px;">Bạn chỉ muốn research, không muốn agent nào đụng vào code.</li>
+            <li style="margin-bottom:8px;">Bạn muốn report các file quan trọng để main agent đọc tiếp.</li>
+          </ul>
+        </div>
+        <div style="padding:20px; border-radius:18px; background:#1f2937; border:1px solid rgba(251,191,36,.18);">
+          <h3 style="margin:0 0 10px; color:#fef3c7;">Chọn Claude Code Subagents nếu...</h3>
+          <ul style="margin:0; padding-left:20px; color:#e5e7eb;">
+            <li style="margin-bottom:8px;">Bạn muốn tạo agent chuyên môn dùng đi dùng lại.</li>
+            <li style="margin-bottom:8px;">Bạn cần kiểm soát model, tool, permission, memory.</li>
+            <li style="margin-bottom:8px;">Bạn muốn agent có thể vừa nghiên cứu vừa hành động khi được phép.</li>
+            <li style="margin-bottom:8px;">Bạn có workflow lặp lại như review code, debug test, viết PRD/SRS, audit security.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:28px; padding:28px; border-radius:24px; background:linear-gradient(135deg,#172554,#312e81); border:1px solid rgba(129,140,248,.35);">
+      <h2 style="margin:0 0 14px; color:#ffffff; font-size:30px;">Kết luận ngắn gọn</h2>
+      <p style="margin:0 0 12px; color:#dbeafe; font-size:18px;"><strong style="color:#fff;">Cline Subagents</strong> là công cụ rất hợp để “chia quân đi đọc code” — nhanh, an toàn, song song, read-only.</p>
+      <p style="margin:0; color:#ede9fe; font-size:18px;"><strong style="color:#fff;">Claude Code Subagents</strong> là một cơ chế agent hóa workflow mạnh hơn — có thể tạo nhân sự AI chuyên môn, tái sử dụng, cấu hình sâu, và tùy quyền từ read-only đến full-action.</p>
+    </section>
+
+    <footer style="margin-top:24px; color:#94a3b8; font-size:13px; text-align:center;">
+      Nguồn tham khảo: Cline docs — Subagents; Claude Code docs — Create custom subagents. Tạo lúc 2026-05-05 GMT+7.
+    </footer>
+  </main>
+</body>
+</html>
